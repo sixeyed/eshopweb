@@ -1,0 +1,38 @@
+name: Create SQL Server databases
+
+on:
+  push:
+    paths:
+      - "**/az-*.yml"
+
+jobs:
+
+  build:
+ 
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Create Catalog DB
+      uses: 'docker://sixeyed/actions-sql-create-database:1910'
+      env:
+        AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
+        AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
+        AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+        AZURE_RESOURCE_GROUP: eshopweb
+        AZURE_REGION: eastus
+        SQL_SERVER: ${{ secrets.AZURE_SQL_SERVER }}        
+        SQL_PASSWORD: ${{ secrets.AZURE_SQL_PASSWORD }}
+        SQL_DATABASE: Microsoft.eShopOnWeb.CatalogDb
+    
+    - name: Create Identity DB
+      uses: 'docker://sixeyed/actions-sql-create-database:1910'
+      env:
+        AZURE_SP_NAME: ${{ secrets.AZURE_SP_NAME }}
+        AZURE_SP_TENANT: ${{ secrets.AZURE_SP_TENANT }}
+        AZURE_SP_PASSWORD: ${{ secrets.AZURE_SP_PASSWORD }}
+        AZURE_RESOURCE_GROUP: eshopweb
+        AZURE_REGION: eastus
+        SQL_SERVER: ${{ secrets.AZURE_SQL_SERVER }}        
+        SQL_PASSWORD: ${{ secrets.AZURE_SQL_PASSWORD }}
+        SQL_DATABASE: Microsoft.eShopOnWeb.Identity
+        

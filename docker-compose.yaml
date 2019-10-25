@@ -1,0 +1,27 @@
+version: "3.6"
+services:
+  eshopwebmvc:
+    build:
+      context: eshop-web
+      dockerfile: src/Web/Dockerfile
+    depends_on:
+    - sql-server
+    environment:
+    - ConfigController__Enabled=true
+    - Database__Provider=SqlServer
+    image: docker.io/sixeyed/eshopwebmvc
+    ports:
+    - 5100:80
+    secrets:
+    - source: db-connection-string
+      target: /app/config/db-connection-string
+  sql-server:
+    environment:
+    - SA_PASSWORD=Pass@word
+    - ACCEPT_EULA=Y
+    image: mcr.microsoft.com/mssql/server:2017-CU14-ubuntu
+    ports:
+    - 5433:1433
+secrets:
+  db-connection-string:
+    file: sql-server/secrets/db-connection-string
