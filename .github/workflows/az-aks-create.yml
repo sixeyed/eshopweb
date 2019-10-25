@@ -1,9 +1,6 @@
 name: Create AKS cluster
 
-on:
-  push:
-    paths:
-      - "**/az-*.yml"
+on: push
 
 jobs:
 
